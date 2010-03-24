@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Battle Brushes</title>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <script type="text/javascript" src="jquery-1.4.2.min.js"></script>
+  <script type="text/javascript" src="js/utils.js"></script>
+  <script type="text/javascript" src="js/popup.js"></script>
+  <script type="text/javascript" src="js/gameStatic.js"></script>
+  <script type="text/javascript" src="js/gamePanel.js"></script>
+  <script type="text/javascript" src="js/AIEngine.js"></script>
+  <script type="text/javascript" src="js/gameLoader.js"></script>
+  <script type="text/javascript" src="js/gameFighter.js"></script>
+  <script type="text/javascript" src="js/gameCoder.js"></script>
+  <script type="text/javascript" src="js/game.js"></script>
+  <script type="text/javascript" src="main.js"></script>
+  
+  <script type="text/javascript" src="js/edit_area/edit_area_full.js"></script>
+</head>
+<body>
+  <div id="main">
+    <div id="popupBackground" class="blackLayer">&nbsp;</div>
+    <div id="popupContainer">
+      <div id="popup">
+        <div class="popup-box">
+          <div class="mode welcome">
+            <span style="clear: right; float:right; color: #F33;">DEV version - The game is (really) not finished.</span>
+            <h2>Welcome to Battle Brushes</h2>
+            <!--<img src="game_preview.png" />-->
+            <section class="description">
+              <h3><span class="bull"></span> What is this game ?</h3>
+              <p>Battle brushes is a multiplayer video game wherein brushes are fighting to own the best painted surface on screen.
+              Each player use two keys to rotate (player moves forward automatically) in order to draw his color above rivals.
+              The best painter win the match.</p>
+            </section>
+            <section>
+            <h3><span class="bull"></span> What do you need ?</h3>
+            <p>This canvas implementation need a recent HTML5 suppliant browser like Firefox 3.6+, chrome 5+. 
+            Moreover, The game takes a 1024x768 resolution. Fullscreen is maybe the best solution.</p>
+            </section>
+            <section class="howto">
+              <h3><span class="bull"></span> How to play ?</h3>
+              <p>There is two game mode. Each mode is a rounds sequence more and more difficult.</p>
+              <div class="half left">
+                <h4><span class="bull"></span> The fighter mode</h4>
+                <p>In the fighter mode you will take control of a brush against 3 AI ennemies. 
+                While you win matches, AI ennemies are more and more smarter. 
+                Be smarter than them in order to have the best score when the match end.</p>
+                <p>You have two keys to control your brush <strong>LEFT</strong> and <strong>RIGHT</strong>.</p>
+              </div>
+              <div class="half right">
+                <h4><span class="bull"></span> The coder mode</h4>
+                <p>First of all, you code an AI an see the result in a test area.
+                When your code suits you, submit and see the result into the rounds sequence. 
+                Code the best algorithm to improve your score.</p>
+              </div>
+            </section>
+            <section id="errors">
+              <noscript class="error">Please enable javascript.</noscript>
+            </section>
+            <section class="buttons center">
+              <div class="half left"><a class="startGame fighter awesomeButton" href="javascript:;" style="display: none;">Fight!</a></div>
+              <div class="half right"><a class="startGame coder awesomeButton" href="javascript:;" style="display: none;">Code!</a></div>
+              <div id="loading" style="display: none;"><img src="load.gif" /> <span>Loading...</span></div>
+            </section>
+            <section class="about">
+              <h3><span class="bull"></span> What about the source code ?</h3>
+              <p>The source code is released under GPL licence. For more information, check out the <a href="http://grenlibre.fr/" target="_blank">relative blog article</a>.</p>
+            </section>
+          </div>
+          <div class="mode end center" style="display: none;">
+            <h1>Game end</h1>
+          </div>
+          <div id="pause" class="mode pause" style="display: none;" >
+            <section class="center">
+              <h2>Jeu en pause</h2>
+            </section>
+            <section class="buttons center">
+              <a class="pauseToggle unselectable awesomeButton" href="javascript:;">resume the game</a>
+            </section>
+          </div>
+          
+          <div id="levelContainer">
+            <div class="mode level1" style="display: none;">
+              <h2>Level 1</h2>
+              <p>First match. Try to beat your opponent.</p>
+            </div>
+            <section class="buttons center">
+              <a class="startLevel unselectable awesomeButton" href="javascript:;">Start level</a>
+            </section>
+          </div>
+          <section class="adsenseContainer">
+            <!--<script type="text/javascript">
+            google_ad_client = "pub-2494071399536215";
+            /* 728x90, battle brushes */
+            google_ad_slot = "6507481707";
+            google_ad_width = 728;
+            google_ad_height = 90;
+            </script>
+            <script type="text/javascript"
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+            </script>-->
+          </section>
+        </div>
+      </div>
+    </div>
+      
+    <div id="gameContainer">
+      <div id="game" class="box unselectable" style="display: none;">
+        <div id="canvasContainer"></div>
+        <div id="panel">
+          <div id="panelMessage"></div>
+          <div id="score"></div>
+          <canvas id="clockHand" width="98" height="98"></canvas>
+          <canvas id="Cliquid1" width="88" height="339"></canvas>
+          <canvas id="Cliquid2" width="71" height="63"></canvas>
+          <canvas id="valve" width="137" height="48"></canvas>
+          <canvas id="valveFlow" width="9" height="30"></canvas>
+          <canvas id="pressureLED" width="80" height="16"></canvas>
+          <canvas id="eventLED" width="200" height="16"></canvas>
+        </div>
+      </div>
+      
+      <button id="coderButtonRunToggle" class="run awesomeButton" style="display: none;">Run the code</button>
+      
+      <div id="coderPanel" style="display: none;">
+<textarea id="aiCode">
+
+
+/* Your code goes here */
+
+
+
+/* Example */
+
+if(infos.clock==0) lastTurn=LEFT; // global to remember the last turn direction
+
+if(infos.clock % 15 == 0)  { 
+// each 15 cycle
+
+  if(betOneIn(5))
+    turnTo(lastTurn); 
+    // continue turn like before
+    
+  else
+    lastTurn = (infos.clock % 30>=15) ? turnLeft() : turnRight(); 
+    // altern left-right turn
+}
+
+/* Example end */
+</textarea>
+        <div class="compileError">
+        </div>
+        <div id="coderHelp">
+            
+        </div>
+      </div>
+    </div>
+
+    <footer>© Renaudeau Gaetan - grenlibre.fr - 2010</footer>
+    <div id="imageLoader">
+    <img id="clock_hand" src="gfx/decor/hand.png" />
+    <img id="del_on" src="gfx/decor/del_on.png" />
+    <img id="valve_bar" src="gfx/decor/valve_bar.png" />
+    <img id="valve_fg" src="gfx/decor/valve_fg.png" />
+    <img id="valve_fg_liquid_under" src="gfx/decor/valve_fg_liquid_under.png" />
+    <img id="liquid1" src="gfx/decor/liquid1.png" />
+    <img id="liquid2" src="gfx/decor/liquid2.png" />
+    </div>
+  </div>
+</body>
+</html>
