@@ -1,6 +1,6 @@
 
 html {
-  background: url(noise.png), url(big-noise.png), #766356;
+  background: url(/public/images/noise.png), url(/public/images/big-noise.png), #766356;
   background-color: #766356;
 }
 
@@ -337,7 +337,7 @@ canvas {
 }
 
 #background {
-  background: url(noise.png) #928176;
+  background: url(/public/images/noise.png) #928176;
   -moz-border-radius: 20px;
   -webkit-border-radius: 20px;
 }
@@ -345,7 +345,7 @@ canvas {
 /** panel **/
 
 #panel {
-  background: url(gfx/decor/background.png);
+  background: url(/public/images/decor/background.png);
   position: absolute;
   top: 0;
   left: 768px;

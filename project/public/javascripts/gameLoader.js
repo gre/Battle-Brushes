@@ -40,7 +40,7 @@
       for(var c in colors)
         for(var t in colors)
           if(colors[c]!="blank" || colors[c]=="blank"&&colors[t]=="blank")
-          $('#imageLoader').append('<img id="player_'+colors[c]+'_'+colors[t]+'" src="gfx/players/'+colors[c]+'.'+colors[t]+'.png" />');
+          $('#imageLoader').append('<img id="player_'+colors[c]+'_'+colors[t]+'" src="/public/images/players/'+colors[c]+'.'+colors[t]+'.png" />');
       utils.loadImages(callback);
     };
     
@@ -81,7 +81,7 @@
         
         debug('loading workers...');
         try {
-          var workerTest = new Worker("initWorker.js");
+          var workerTest = new Worker("/public/javascripts/initWorker.js");
         }
         catch(e) {
           debug('worker load failed');

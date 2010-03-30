@@ -424,7 +424,7 @@
         var ul = $('<ul />');
         var colors = ['blue','red','yellow','green'];
         for(var c in colors)
-          ul.append('<li class="colortext '+colors[c]+'"><img src="gfx/teams/'+colors[c]+'.png" /> <span class="score '+colors[c]+'"></span></li>');
+          ul.append('<li class="colortext '+colors[c]+'"><img src="/public/images/teams/'+colors[c]+'.png" /> <span class="score '+colors[c]+'"></span></li>');
         $('#score').append(ul);
         clean();
       },

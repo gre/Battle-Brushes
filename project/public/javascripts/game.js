@@ -147,7 +147,7 @@
         x: getPlayerX(num),
         y: getPlayerY(num),
         angle: getPlayerAngle(num),
-        aiScript: "ai/ai."+scriptName+".js"
+        aiScript: "/public/javascripts/ai/ai."+scriptName+".js"
       }) );
     };
     
@@ -158,31 +158,48 @@
       var total = bb.Global.matchDuration;
       var fadeOutPlayers = 100;
       $('#players').css('opacity', 1);
+      
+      var cycleIntervalMs = 30;
+      var cycleRealIntervalsMs = 0;
+      var cycleRealIntervalsCount = 0;
+      
       var cycle = function() {
+        // checks
         if(g_pause) return;
         if(i>total) {
           stopMatch();
           end();
           return;
         }
+        var beginTime = new Date().getTime();
+        
         if(i>total-fadeOutPlayers) {
           var ratio = (total-i)/fadeOutPlayers;
           $('#players').css('opacity', ratio);
         }
         
+        //graphics
+        bb.GamePanelAnimator.cycle(i);
+        drawPaints();
+        
+        if(cycleRealIntervalsCount<10 
+        || i % 8 == 0 /* force display each X cycles */ 
+        || (cycleRealIntervalsMs/cycleRealIntervalsCount)<cycleIntervalMs) {
+            drawPlayers();
+        }
+        
+        // algorithm
         bb.Infos.cycle();
         for(var p in players)
           players[p].cycle();
-        drawPlayers();
-        drawPaints();
         if(i%30==0)
           bb.GamePanel.updateScores(bb.Infos.getBufferedCurrentTeamsScore(6));
-        if(i%100==0)
-          debug('cycle : '+i);
-        bb.GamePanelAnimator.cycle(i);
         ++i;
+        
+        cycleRealIntervalsMs+=(new Date().getTime()-beginTime);
+        cycleRealIntervalsCount++;
       };
-      gameCycleInterval = interval = setInterval(cycle, 30);
+      gameCycleInterval = interval = setInterval(cycle, cycleIntervalMs);
     };
     
     var newMatch = function(seed) {
